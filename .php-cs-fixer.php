@@ -1,5 +1,13 @@
 <?php
 
+$finder = (new PhpCsFixer\Finder())
+    ->in([
+        __DIR__ . '/src',
+        __DIR__ . '/public',
+        __DIR__ . '/tests',
+    ])
+    ->exclude(['vendor', 'node_modules']);
+
 return (new PhpCsFixer\Config())
     ->setRules([
         '@PSR12' => true,
@@ -99,7 +107,5 @@ return (new PhpCsFixer\Config())
     ])
     // ->setIndent("\t")
     ->setLineEnding("\n")
-    ->setFinder(
-        PhpCsFixer\Finder::create()->in(['src', 'public', 'tests'])->append([__FILE__])
-    )
+    ->setFinder($finder)
 ;
