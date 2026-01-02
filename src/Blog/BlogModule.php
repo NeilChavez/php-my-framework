@@ -2,6 +2,7 @@
 
 namespace App\Blog;
 
+use Framework\Renderer;
 use Framework\Router;
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
@@ -9,15 +10,21 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class BlogModule
 {
-    public function __construct(Router $router)
+    private $renderer;
+
+    public function __construct(Router $router, Renderer $renderer)
     {
+        $this->renderer = $renderer;
+        $this->renderer->addPath('blog', __dir__ . '/views');
         $router->get('/blog', [$this, 'index'], 'blog.home');
         $router->get('/blog/{slug:[a-z0-9\-]+}[/{id:\d+}]', [$this, 'show'], 'blog.show');
     }
 
-    public function index(): ResponseInterface
+    public function index(): string
     {
-        return new Response(200, [], '<h1>Hello, from module index!</h1>');
+        return $this->renderer->render('@blog/index', [
+            'name' => 'neil'
+        ]);
     }
 
     public function show(ServerRequestInterface $request)
