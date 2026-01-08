@@ -25,7 +25,7 @@ class Renderer
             // transforms "@blog/demo" to "/absolute/path/views/demo.php"
             $path = $this->replaceAliasWithPath($view) . '.php';
         } else {
-            if (!$this->paths[self::DEFAULT_ALIAS] !== null) {
+            if ($this->paths[self::DEFAULT_ALIAS] !== null) {
                 $path = $this->paths[self::DEFAULT_ALIAS] . '/' . $view . '.php';
             }
         }
