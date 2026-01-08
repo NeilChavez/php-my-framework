@@ -1,8 +1,9 @@
 <?php
 echo $renderer->render('header');
 ?>
-<h1>Hello form INDEX, params: <?php echo $name ?></h1>
-<h1>Test view</h1>
+<h1>Hello, from module index!</h1>
+<h2>params: <?php echo $name ?></h2>
+<h3>Test view</h3>
 <ul>
   <li>
     

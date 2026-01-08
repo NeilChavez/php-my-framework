@@ -10,16 +10,19 @@ use Psr\Http\Message\ServerRequestInterface;
 class App
 {
     private $modules = [];
-    private $router;
+    private $router = null;
 
-    public function __construct($modules = [], array $dependencies)
+    public function __construct($modules = [], array $dependencies = [])
     {
         $this->router = new Router();
         if (array_key_exists('renderer', $dependencies)) {
             $dependencies['renderer']->addGlobals('router', $this->router);
+        } else {
+            $dependencies['renderer'] = new Renderer();
+            $dependencies['renderer']->addGlobals('router', $this->router);
         }
         foreach ($modules as $module) {
-            $this->modules[] = new $module($this->router, $dependencies['renderer'], $dependencies['router']);
+            $this->modules[] = new $module($this->router, $dependencies['renderer'], $this->router);
         }
     }
 

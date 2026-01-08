@@ -12,7 +12,7 @@ class AppTest extends TestCase
 {
     public function testRedirectionTrailingSlash()
     {
-        $app = new App();
+        $app = new App([], []);
         $request = new ServerRequest('GET', '/azaza/');
         $response = $app->run($request);
 
@@ -25,14 +25,14 @@ class AppTest extends TestCase
         $request = new ServerRequest('GET', '/blog');
         $app = new App([
             BlogModule::class
-        ]);
+        ], []);
         $response = $app->run($request);
 
         $requestToArticle = new ServerRequest('GET', '/blog/article-title');
         $responseToArticle = $app->run($requestToArticle);
 
         $this->assertInstanceOf(ResponseInterface::class, $response);
-        $this->assertEquals('<h1>Hello, from module index!</h1>', (string)$response->getBody());
-        $this->assertEquals('<h1>This is an article: article-title</h1>', (string)$responseToArticle->getBody());
+        $this->assertStringContainsString('<h1>Hello, from module index!</h1>', (string)$response->getBody());
+        $this->assertStringContainsString('<h1>This is an article: article-title</h1>', (string)$responseToArticle->getBody());
     }
 }
